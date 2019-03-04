@@ -143,17 +143,17 @@ class iFolder(object):
   def foGetChildFile(oSelf, sName):
     oChildFile = oSelf.fo0GetChildFile(sName);
     assert oChildFile, \
-        "File %s not found" % oSelf.fsGetRelativePath(sName);
+        "Child file %s of %s not found" % (sName, oSelf.sPath);
     return oChildFile;
   def foGetChildFolder(oSelf, sName):
     oChildFolder = oSelf.fo0GetChildFolder(sName);
     assert oChildFolder, \
-        "Folder %s not found" % oSelf.fsGetRelativePath(sName);
+        "Child folder %s of %s not found" % (sName, oSelf.sPath);
     return oChildFolder;
   def foGetChild(oSelf, sName):
     oChild = oSelf.fo0GetChildFile(sName) or oSelf.fo0GetChildFolder(sName);
     assert oChild, \
-        "File or folder %s not found" % oSelf.fsGetRelativePath(sName);
+        "Child file or folder %s of %s not found" % (sName, oSelf.sPath);
     return oChild;
   
   # foGetOrAddChild(File|Folder)
@@ -182,17 +182,17 @@ class iFolder(object):
   def foGetDescendantFile(oSelf, sPath):
     oDescendantFile = oSelf.fo0GetDescendantFile(sPath);
     assert oDescendantFile, \
-        "File %s not found" % oSelf.fsGetRelativePath(sPath);
+        "Descendant file %s of %s not found" % (sPath, oSelf);
     return oDescendantFile;
   def foGetDescendantFolder(oSelf, sPath):
     oDescendantFolder = oSelf.fo0GetDescendantFolder(sPath);
     assert oDescendantFolder, \
-        "Folder %s not found" % oSelf.fsGetRelativePath(sPath);
+        "Descendant folder %s of %s not found" % (sPath, oSelf);
     return oDescendantFolder;
   def fo0GetDescendant(oSelf, sPath):
     oDescendant = oSelf.fo0GetDescendantFile(sPath) or oSelf.fo0GetDescendantFolder(sPath);
     assert oDescendant, \
-        "File or folder %s not found" % oSelf.fsGetRelativePath(sPath);
+        "Descendant file or folder %s of %s not found" % (sPath, oSelf);
     return oDescendant;
   
   # foAddDescendant(File|Folder)
