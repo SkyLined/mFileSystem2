@@ -24,8 +24,14 @@ class cFileSystemFolder(iFileSystemChild, iFolder):
       os.makedirs(oSelf.sWindowsPath);
   
   def fSetCurrent(oSelf):
+    # Try using the basic path
+    os.chdir(oSelf.sPath);
+    if os.getcwd() == oSelf.sPath: return;
+    # Try using the windows path.
     os.chdir(oSelf.sWindowsPath);
-  
+    assert os.getcwd() == oSelf.sWindowsPath, \
+      "Cannot set current working directory to %s" % oSelf.sWindowsPath;
+    
   def fDeleteChildren(oSelf):
     if not oSelf.fbIsFolder():
       return;
