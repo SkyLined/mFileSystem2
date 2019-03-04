@@ -59,9 +59,9 @@ def foGetOrCreateFile(sPath):
     oFile.fCreate();
   return oFile;
 
-def foCreateFile(sPath):
+def foCreateFile(sPath, sData = ""):
   oFile = cFileSystemFile(fsAbsoluteCleanPath(sPath));
-  oFile.fWrite("");
+  oFile.fWrite(sData);
   return oFile;
 
 # Folders
