@@ -9,8 +9,9 @@ class iChild(object):
     asPath = [s for s in re.split(r"\\|/", sPath) if s];
     oSelf.sName = asPath.pop();
     if oParentFolder:
-      assert len(asPath) == 0, \
-          "Cannot provide a path %s and a parent folder %s" % (repr(sPath), oParentFolder);
+      if len(asPath) > 0:
+        assert os.path.sep.join(asPath) == oParentFolder.sPath, \
+            "Cannot provide a path %s that is not a child of a parent folder %s" % (repr(sPath), repr(oParentFolder.sPath));
       oSelf.oParentFolder = oParentFolder;
     elif len(asPath) == 0:
       oSelf.oParentFolder = None;
