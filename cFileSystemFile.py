@@ -26,11 +26,15 @@ class cFileSystemFile(iFileSystemChild):
   def __fOpen(oSelf, bWritable = False):
     if oSelf.__oFile:
       # File is already open
-      if not bWritable or oSelf.__bWritable:
+      if (
+        (bWritable and not oSelf.__bWritable)
+        or (not bWritable and oSelf.__bWritable)
+      ):
+        # File is already open but we do not have the right access, so close and reopen
+        oSelf.__oFile.close();
+      else:
         # File is already open with correct access rights.
         return;
-      # File is already open for read, but we need write access, so close and reopen
-      oSelf.__oFile.close();
     oSelf.__oFile = open(oSelf.sWindowsPath, "wb" if bWritable else "rb");
     oSelf.__bWritable = bWritable;
   
