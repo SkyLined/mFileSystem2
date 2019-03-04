@@ -20,9 +20,11 @@ class cZipFile(cFileSystemFile, iFolder):
     cFileSystemFile.__del__(oSelf);
   
   def fbIsZipFile(oSelf):
+    if not oSelf.fbIsFile():
+      return False;
     try:
       oSelf.__fOpen();
-    except zipfile.BadZipFile, oException:
+    except zipfile.BadZipfile, oException:
       return False;
     return True;
   
@@ -40,11 +42,15 @@ class cZipFile(cFileSystemFile, iFolder):
   def __fOpen(oSelf, bWritable = False):
     if oSelf.__oPyZipFile:
       # File is already open
-      if not bWritable or oSelf.__bWritable:
+      if (
+        (bWritable and not oSelf.__bWritable)
+        or (not bWritable and oSelf.__bWritable)
+      ):
+        # File is already open but we need different access rights, so close and reopen
+        oSelf.__oPyZipFile.close();
+      else:
         # File is already open with correct access rights.
         return;
-      # File is already open for read, but we need write access, so close and reopen
-      oSelf.__oPyZipFile.close();
     oSelf.__oPyZipFile = zipfile.ZipFile(oSelf.sWindowsPath, "w" if bWritable else "r", zipfile.ZIP_DEFLATED);
     oSelf.__bWritable = bWritable;
   
@@ -61,7 +67,7 @@ class cZipFile(cFileSystemFile, iFolder):
   
   def fsReadFile(oSelf, sFilePath):
     oSelf.__fOpen();
-    oSelf.__oPyZipFile.read(sFilePath);
+    return oSelf.__oPyZipFile.read(sFilePath);
   
   def foWriteFile(oSelf, sFilePath, sFileContent):
     assert not oSelf.fo0GetDescendantFolder(sFilePath), \
