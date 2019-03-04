@@ -108,7 +108,7 @@ def foGetZipFile(sPath):
       "File %s is not a valid zip file!" % sPath;
   return oZipFile;
 
-def fo0GetOrCreateZipFile(sPath):
+def foGetOrCreateZipFile(sPath):
   oZipFile = cZipFile(fsAbsoluteCleanPath(sPath));
   if not oZipFile.fbIsZipFile():
     oZipFile.fCreate();
