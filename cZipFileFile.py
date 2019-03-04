@@ -8,8 +8,8 @@ class cZipFileFile(iZipFileChild):
     return True;
 
   def fsRead(oSelf):
-    oSelf.oZipFileRoot.fsReadFile(oSelf.sZipFilePath);
+    return oSelf.oZipFileRoot.fsReadFile(oSelf.sZipFilePath);
 
   def fWrite(oSelf, sFileContent):
-    oSelf.oZipFileRoot.foWriteFile(oSelf.sZipFilePath, sFileContent);
+    return oSelf.oZipFileRoot.foWriteFile(oSelf.sZipFilePath, sFileContent);
       
