@@ -38,6 +38,7 @@ class cZipFile(cFileSystemFile, iFolder):
     oSelf.__oPyZipFile = zipfile.ZipFile(oSelf.sWindowsPath, "w", zipfile.ZIP_DEFLATED);
     oSelf.__bWritable = True;
     oSelf.fRemoveChildren();
+    oSelf.fClose(); # Needed to actually create the file because of caching.
   
   def __fOpen(oSelf, bWritable = False):
     if oSelf.__oPyZipFile:
