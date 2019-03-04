@@ -1,0 +1,15 @@
+{
+  "asDependentOnProductNames": [], 
+  "oProductVersion": "2019-01-04 15:06", 
+  "oRepository": {
+    "sBranch": "master", 
+    "sRepositoryName": "mFileSystem2", 
+    "sType": "GitHub", 
+    "sUserName": "SkyLined"
+  }, 
+  "oTrialPeriodDuration": "1m", 
+  "sLicenseServerURL": "https://license.skylined.nl/License_dxCheck.php", 
+  "sProductAuthor": "SkyLined", 
+  "sProductName": "mFileSystem2", 
+  "sProductURL": "https://github.com/SkyLined/mFileSystem2"
+}
