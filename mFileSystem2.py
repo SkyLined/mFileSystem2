@@ -18,7 +18,7 @@ for (sModuleName, sDownloadURL) in [
   except ImportError as oError:
     if oError.message == "No module named %s" % sModuleName:
       print "*" * 80;
-      print "mFileSystem depends on %s which you can download at:" % sModuleName;
+      print "mFileSystem2 depends on %s which you can download at:" % sModuleName;
       print "    %s" % sDownloadURL;
       print "After downloading, please save the code in this folder:";
       print "    %s" % os.path.join(sModulesFolderPath, sModuleName);
