@@ -1,3 +1,10 @@
+2019-08-01
+==========
+* Remove license check
+* Switch dependency from mWindowsAPI to mWindowsSDK.
+* Simplify Tests.cmd
+* Add Tests output
+
 2019-03-04 - Initial release
 ============================
 This is the first public release of these scripts. They have been tested
