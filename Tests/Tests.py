@@ -11,6 +11,8 @@ sTempFolderPath = os.environ["TEMP"];
 assert mFileSystem2.fbIsFolder(sTempFolderPath), \
     "Cannot find %s" % sTempFolderPath;
 
+print "* Running tests...";
 fTestFileFunctions();
 fTestFolderFunctions();
 fTestZipFileFunctions();
+print "+ Done.";

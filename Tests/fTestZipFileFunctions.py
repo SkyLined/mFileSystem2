@@ -2,6 +2,7 @@ import os;
 import mFileSystem2;
 
 def fTestZipFileFunctions():
+  print "* Testing zip file functions...";
   sTempFolderPath = os.environ["TEMP"];
   oTempFolder = mFileSystem2.foGetFolder(sTempFolderPath);
   sTestZipFilePath = os.path.join(sTempFolderPath, "mFileSystem2 test file.zip");
@@ -51,3 +52,4 @@ def fTestZipFileFunctions():
   assert mFileSystem2.fbIsZipFile(sTestZipFilePath), \
     "File %s should exist" % sTestZipFilePath;
   oTestZipFile.fDelete();
+  print "  + Ok.";

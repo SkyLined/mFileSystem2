@@ -2,6 +2,7 @@ import os;
 import mFileSystem2;
 
 def fTestFileFunctions():
+  print "* Testing file functions...";
   sTempFolderPath = os.environ["TEMP"];
   oTempFolder = mFileSystem2.foGetFolder(sTempFolderPath);
   sTestFilePath = os.path.join(sTempFolderPath, "mFileSystem2 test file");
@@ -47,3 +48,4 @@ def fTestFileFunctions():
   assert mFileSystem2.fbIsFile(sTestFilePath), \
     "File %s should exist" % sTestFilePath;
   oTestFile.fDelete();
+  print "  + Ok.";

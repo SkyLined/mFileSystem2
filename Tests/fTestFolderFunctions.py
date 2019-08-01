@@ -2,6 +2,7 @@ import os;
 import mFileSystem2;
 
 def fTestFolderFunctions():
+  print "* Testing folder functions...";
   sTempFolderPath = os.environ["TEMP"];
   oTempFolder = mFileSystem2.foGetFolder(sTempFolderPath);
   sTestFolderPath = os.path.join(sTempFolderPath, "mFileSystem2 test folder");
@@ -38,3 +39,4 @@ def fTestFolderFunctions():
   assert mFileSystem2.fbIsFolder(sTestFolderPath), \
     "Folder %s should exist" % sTestFolderPath;
   oTestFolder.fDelete();
+  print "  + Ok.";
