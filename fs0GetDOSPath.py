@@ -1,9 +1,9 @@
 from fsGetWindowsPath import fsGetWindowsPath;
 
-from mWindowsAPI.mDLLs import oKernel32;
 from mWindowsSDK import *;
 
 def fs0GetDOSPath(sPath):
+  oKernel32 = foLoadKernel32DLL();
   sWindowsPath = fsGetWindowsPath(sPath);
   if not os.path.exists(sWindowsPath):
     return None;
