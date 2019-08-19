@@ -1,32 +1,22 @@
 import os, re;
+from .fsGetNormalizedPath import fsGetNormalizedPath;
 
 class iChild(object):
   def __init__(oSelf, sPath, oParentFolder):
-    try:
-      sPath = str(sPath, encoding = "ascii");
-    except:
-      pass;
-    asPath = [s for s in re.split(r"\\|/", sPath) if s];
-    oSelf.sName = asPath.pop();
+    oSelf.sPath = fsGetNormalizedPath(sPath, oParentFolder.sPath if oParentFolder else None);
+    oSelf.sName = os.path.basename(oSelf.sPath);
+    sParentFolderPath = fsGetNormalizedPath(oSelf.sPath + os.sep + u"..");
     if oParentFolder:
-      if len(asPath) > 0:
-        assert os.path.sep.join(asPath) == oParentFolder.sPath, \
-            "Cannot provide a path %s that is not a child of a parent folder %s" % (repr(sPath), repr(oParentFolder.sPath));
+      assert sParentFolderPath == oParentFolder.sPath, \
+          "Cannot create a child (path = %s, normalized = %s, parent = %s) for the given parent folder (path %s)" % \
+          (repr(sPath), repr(oSelf.sPath), repr(sParentFolderPath), repr(oParentFolder.sPath));
       oSelf.oParentFolder = oParentFolder;
-    elif len(asPath) == 0:
+    elif sParentFolderPath == oSelf.sPath:
       oSelf.oParentFolder = None;
     else:
-      sParentFolderPath = os.path.sep.join(asPath);
       oSelf.fSetParentFolderForPath(sParentFolderPath);
-    
     oSelf.oRoot = oSelf if oSelf.oParentFolder is None else oSelf.oParentFolder.oRoot;
     
-  @property
-  def sPath(oSelf):
-    if not oSelf.oParentFolder:
-      return oSelf.sName;
-    return oSelf.oParentFolder.sPath + os.sep + oSelf.sName;
-  
   def fsGetRelativePath(oSelf, sBase):
     return os.path.relpath(oSelf.sPath, sBase);
   

@@ -36,15 +36,12 @@ from .cFileSystemFolder import cFileSystemFolder;
 from .cZipFile import cZipFile;
 from fsGetValidName import fsGetValidName;
 
-def fsAbsoluteCleanPath(sPath):
-  return re.match(r"^" r"(" r"\\\\\?\\" r"(?:UNC\\)?" r")?" r"(.+)" r"$", os.path.abspath(sPath)).group(2);
-
 # Files
 def fbIsFile(sPath):
-  return cFileSystemFile(fsAbsoluteCleanPath(sPath)).fbIsFile();
+  return cFileSystemFile(sPath).fbIsFile();
 
 def fo0GetFile(sPath):
-  oFile = cFileSystemFile(fsAbsoluteCleanPath(sPath));
+  oFile = cFileSystemFile(sPath);
   return oFile if oFile.fbIsFile() else None;
 
 def foGetFile(sPath):
@@ -54,22 +51,22 @@ def foGetFile(sPath):
   return oFile;
 
 def foGetOrCreateFile(sPath):
-  oFile = cFileSystemFile(fsAbsoluteCleanPath(sPath));
+  oFile = cFileSystemFile(sPath);
   if not oFile.fbIsFile():
     oFile.fCreate();
   return oFile;
 
 def foCreateFile(sPath, sData = ""):
-  oFile = cFileSystemFile(fsAbsoluteCleanPath(sPath));
+  oFile = cFileSystemFile(sPath);
   oFile.fWrite(sData);
   return oFile;
 
 # Folders
 def fbIsFolder(sPath):
-  return cFileSystemFolder(fsAbsoluteCleanPath(sPath)).fbIsFolder();
+  return cFileSystemFolder(sPath).fbIsFolder();
 
 def fo0GetFolder(sPath):
-  oFolder = cFileSystemFolder(fsAbsoluteCleanPath(sPath));
+  oFolder = cFileSystemFolder(sPath);
   return oFolder if oFolder.fbIsFolder() else None;
 
 def foGetFolder(sPath):
@@ -79,13 +76,13 @@ def foGetFolder(sPath):
   return oFolder;
 
 def foGetOrCreateFolder(sPath):
-  oFolder = cFileSystemFolder(fsAbsoluteCleanPath(sPath));
+  oFolder = cFileSystemFolder(sPath);
   if not oFolder.fbIsFolder():
     oFolder.fCreate();
   return oFolder;
 
 def foCreateFolder(sPath):
-  oFolder = cFileSystemFolder(fsAbsoluteCleanPath(sPath));
+  oFolder = cFileSystemFolder(sPath);
   assert not oFolder.fbIsFolder(), \
       "Folder %s already exists" % sPath;
   oFolder.fCreate();
@@ -93,10 +90,10 @@ def foCreateFolder(sPath):
 
 # Zip Files
 def fbIsZipFile(sPath):
-  return cZipFile(fsAbsoluteCleanPath(sPath)).fbIsZipFile();
+  return cZipFile(sPath).fbIsZipFile();
 
 def fo0GetZipFile(sPath):
-  oZipFile = cZipFile(fsAbsoluteCleanPath(sPath));
+  oZipFile = cZipFile(sPath);
   return oZipFile if oZipFile.fbIsZipFile() else None;
 
 def foGetZipFile(sPath):
@@ -109,12 +106,12 @@ def foGetZipFile(sPath):
   return oZipFile;
 
 def foGetOrCreateZipFile(sPath):
-  oZipFile = cZipFile(fsAbsoluteCleanPath(sPath));
+  oZipFile = cZipFile(sPath);
   if not oZipFile.fbIsZipFile():
     oZipFile.fCreate();
   return oZipFile;
 
 def foCreateZipFile(sPath):
-  oZipFile = cZipFile(fsAbsoluteCleanPath(sPath));
+  oZipFile = cZipFile(sPath);
   oZipFile.fCreate();
   return oZipFile;
