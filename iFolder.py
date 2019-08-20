@@ -2,15 +2,14 @@ import os, re;
 
 def ftsGetAncestorFolderNameAndRemainingPath(sPath):
   return re.match(r"^(?:(.+?)[\\\/])?(.+)$", sPath.strip("/").strip("\\")).groups();
-  
 
 class iFolder(object):
   cChildFolder = None;
   cChildFile = None;
   
   def __init__(oSelf):
-    oSelf.__doChildFolder_by_sName = {};
-    oSelf.__doChildFile_by_sName = {};
+    oSelf.__doChildFolder_by_sLowerName = {};
+    oSelf.__doChildFile_by_sLowerName = {};
     oSelf.__bChildrenRead = False;
     
   def fbIsFolder(oSelf):
@@ -28,63 +27,67 @@ class iFolder(object):
     raise NotImplemented();
   
   def fUpdateChildFolderAndFileNames(oSelf, asFileNames, asFolderNames):
-    oSelf.__doChildFolder_by_sName = dict([
-      (sName, oSelf.foConstructChildFolder(sName))
+    oSelf.__doChildFolder_by_sLowerName = dict([
+      (sName.lower(), oSelf.foConstructChildFolder(sName))
       for sName in asFolderNames
     ]);
-    oSelf.__doChildFile_by_sName = dict([
-      (sName, oSelf.foConstructChildFile(sName))
+    oSelf.__doChildFile_by_sLowerName = dict([
+      (sName.lower(), oSelf.foConstructChildFile(sName))
       for sName in asFileNames
     ]);
   
   # foAddChild(File|Folder)
   def foAddChildFile(oSelf, sName):
     oChildFile = oSelf.foConstructChildFile(sName);
-    assert oChildFile.sName not in oSelf.__doChildFile_by_sName, \
+    sChildLowerName = oChildFile.sName.lower();
+    assert sChildLowerName not in oSelf.__doChildFile_by_sLowerName, \
         "Cannot add two files with the same name %s" % repr(oChildFile.sName);
-    assert oChildFile.sName not in oSelf.__doChildFolder_by_sName, \
+    assert sChildLowerName not in oSelf.__doChildFolder_by_sLowerName, \
         "Cannot add a file and a folder with the same name %s" % repr(oChildFile.sName);
-    oSelf.__doChildFile_by_sName[oChildFile.sName] = oChildFile;
+    oSelf.__doChildFile_by_sLowerName[sChildLowerName] = oChildFile;
     return oChildFile;
   
   def foAddChildFolder(oSelf, sName):
     oChildFolder = oSelf.foConstructChildFolder(sName);
-    assert oChildFolder.sName not in oSelf.__doChildFolder_by_sName, \
+    sFolderLowerName = oChildFolder.sName.lower();
+    assert sFolderLowerName not in oSelf.__doChildFolder_by_sLowerName, \
         "Cannot add two folders with the same name %s" % repr(oChildFolder.sName);
-    assert oChildFolder.sName not in oSelf.__doChildFile_by_sName, \
+    assert sFolderLowerName not in oSelf.__doChildFile_by_sLowerName, \
         "Cannot add a folder and a file with the same name %s" % repr(oChildFolder.sName);
-    oSelf.__doChildFolder_by_sName[oChildFolder.sName] = oChildFolder;
+    oSelf.__doChildFolder_by_sLowerName[sFolderLowerName] = oChildFolder;
     return oChildFolder;
   
   # fRemoveChild(File|Folder)
   def fRemoveChildFile(oSelf, oChildFile):
     oSelf.fReadChildren();
-    if oChildFile.sName in oSelf.__doChildFile_by_sName:
-      del oSelf.__doChildFile_by_sName[oChildFile.sName];
+    sChildLowerName = oChildFile.sName.lower();
+    if sChildLowerName in oSelf.__doChildFile_by_sLowerName:
+      del oSelf.__doChildFile_by_sLowerName[sChildLowerName];
   def fRemoveChildFolder(oSelf, oChildFolder):
     oSelf.fReadChildren();
-    if oChildFolder.sName in oSelf.__doChildFolder_by_sName:
-      del oSelf.__doChildFolder_by_sName[oChildFolder.sName];
+    sFolderLowerName = oChildFolder.sName.lower();
+    if oChildFolder.sName in oSelf.__doChildFolder_by_sLowerName:
+      del oSelf.__doChildFolder_by_sLowerName[sFolderLowerName];
   def fRemoveChild(oSelf, oChild):
     oSelf.fReadChildren();
     oSelf.fRemoveChildFolder(oChild) and oSelf.fRemoveChildFile(oChild);
 
   def fRemoveChildren(oSelf):
-    oSelf.__doChildFolder_by_sName = {};
-    oSelf.__doChildFile_by_sName = {};
+    oSelf.__doChildFolder_by_sLowerName = {};
+    oSelf.__doChildFile_by_sLowerName = {};
   
   # faoGetChild(File|Folder)s
   def faoGetChildFiles(oSelf):
     oSelf.fReadChildren();
     return [
-      oSelf.__doChildFile_by_sName[sName]
-      for sName in sorted(oSelf.__doChildFile_by_sName.keys())
+      oSelf.__doChildFile_by_sLowerName[sLowerName]
+      for sLowerName in sorted(oSelf.__doChildFile_by_sLowerName.keys())
     ];
   def faoGetChildFolders(oSelf):
     oSelf.fReadChildren();
     return [
-      oSelf.__doChildFolder_by_sName[sName]
-      for sName in sorted(oSelf.__doChildFolder_by_sName.keys())
+      oSelf.__doChildFolder_by_sLowerName[sLowerName]
+      for sLowerName in sorted(oSelf.__doChildFolder_by_sLowerName.keys())
     ];
   def faoGetChildren(oSelf):
     return oSelf.faoGetChildFolders() + oSelf.faoGetChildFiles();
@@ -112,10 +115,10 @@ class iFolder(object):
   # fo0GetChild(File|Folder)
   def fo0GetChildFile(oSelf, sName):
     oSelf.fReadChildren();
-    return oSelf.__doChildFile_by_sName.get(sName);
+    return oSelf.__doChildFile_by_sLowerName.get(sName.lower());
   def fo0GetChildFolder(oSelf, sName):
     oSelf.fReadChildren();
-    return oSelf.__doChildFolder_by_sName.get(sName);
+    return oSelf.__doChildFolder_by_sLowerName.get(sName.lower());
   def fo0GetChild(oSelf, sName):
     return oSelf.fo0GetChildFile(sName) or oSelf.fo0GetChildFolder(sName);
   
