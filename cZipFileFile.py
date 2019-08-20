@@ -12,4 +12,6 @@ class cZipFileFile(iZipFileChild):
 
   def fWrite(oSelf, sFileContent):
     return oSelf.oZipFileRoot.foWriteFile(oSelf.sZipFilePath, sFileContent);
-      
+  
+  def fClose(oSelf):
+    return; # NOP
