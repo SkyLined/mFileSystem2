@@ -11,7 +11,7 @@ sys.path = [sMainFolderPath, sParentFolderPath, sModulesFolderPath] + sys.path;
 # if any one fails to load. This error explains where the missing component
 # can be downloaded to fix the error.
 for (sModuleName, sDownloadURL) in [
-  ("mWindowsAPI", "https://github.com/SkyLined/mWindowsAPI/"),
+  ("mWindowsSDK", "https://github.com/SkyLined/mWindowsSDK/"),
 ]:
   try:
     __import__(sModuleName, globals(), locals(), [], -1);
