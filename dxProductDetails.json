@@ -2,7 +2,6 @@
   "asDependentOnProductNames": [
     "mWindowsSDK"
   ], 
-  "asOptionalProductNames": [], 
   "oProductVersion": "2020-06-17 11:07", 
   "oRepository": {
     "sBranch": "master", 
@@ -10,8 +9,6 @@
     "sType": "GitHub", 
     "sUserName": "SkyLined"
   }, 
-  "oTrialPeriodDuration": null, 
-  "sLicenseServerURL": null, 
   "sProductAuthor": "SkyLined", 
   "sProductName": "mFileSystem2", 
   "sProductURL": "https://github.com/SkyLined/mFileSystem2"
